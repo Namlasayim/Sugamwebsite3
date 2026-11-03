@@ -1,4 +1,6 @@
-# Rang Art Gallery
+# Sugamwebsite3
+
+## Rang Art Gallery
 
 A React/Vite gallery whose public content and admin edits are backed by Supabase.
 

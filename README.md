@@ -19,9 +19,9 @@ npm run dev
 
 The public gallery is available at `/`. The content manager is at `/admin` and requires the Supabase Auth user created in step 4.
 
-## Cloudflare Pages
+## Cloudflare
 
-Use `npm run build` as the build command and `dist` as the build output directory. The build writes static route-specific SEO metadata for public pages and sitemap artwork routes without launching a browser. React still renders page content client-side; these HTML files are not full server-rendered pages. Cloudflare's SPA fallback is in `public/_redirects`.
+The build command is `npm run build` and the output directory is `dist`. The build writes static route-specific SEO metadata for public pages and sitemap artwork routes without launching a browser. React still renders page content client-side; these HTML files are not full server-rendered pages. The explicit `/admin` routes in `public/_redirects` preserve admin deep links without a catch-all rewrite loop. For Workers static assets, configure SPA not-found handling; for Pages, use `dist` as the output directory.
 
 ## Dynamic content
 

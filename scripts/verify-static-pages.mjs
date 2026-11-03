@@ -66,8 +66,12 @@ const artworkRoutes = [...sitemap.matchAll(/<loc>https:\/\/sugamartz\.com(\/gall
 for (const route of artworkRoutes) verifyRoute(route, undefined, route === '/gallery' ? 'website' : 'article')
 
 const redirects = fs.readFileSync(path.join(distDir, '_redirects'), 'utf8')
-if (!redirects.split(/\r?\n/).some((line) => line.trim() === '/* /index.html 200')) {
-  throw new Error('Cloudflare Pages SPA fallback is missing from dist/_redirects')
+const redirectRules = redirects.split(/\r?\n/).map((line) => line.trim()).filter(Boolean)
+for (const rule of ['/admin /index.html 200', '/admin/* /index.html 200']) {
+  if (!redirectRules.includes(rule)) throw new Error(`Missing Cloudflare admin route fallback: ${rule}`)
+}
+if (redirectRules.some((rule) => /(?:^|\s)404$/.test(rule) || rule.startsWith('/* '))) {
+  throw new Error('Cloudflare _redirects contains an unsupported status or looping wildcard rule')
 }
 for (const asset of ['robots.txt', 'sitemap.xml', '404.html']) {
   if (!fs.existsSync(path.join(distDir, asset))) throw new Error(`Missing Cloudflare Pages asset: ${asset}`)
@@ -76,4 +80,4 @@ if (fs.existsSync(path.join(distDir, '.sitemap-artworks.json'))) {
   throw new Error('Temporary artwork metadata was not removed from the deployment output')
 }
 
-console.log(`Verified static SEO metadata for ${staticPages.length} public pages and ${artworkRoutes.length} artwork routes, plus Cloudflare Pages routing assets.`)
+console.log(`Verified static SEO metadata for ${staticPages.length} public pages and ${artworkRoutes.length} artwork routes, plus Cloudflare routing assets.`)

@@ -50,11 +50,14 @@ async function main() {
     { loc: 'https://sugamartz.com/about', priority: '0.7', changefreq: 'monthly' },
     { loc: 'https://sugamartz.com/contact', priority: '0.6', changefreq: 'monthly' },
   ]
+  const artworkMetadata = []
 
   if (supabaseUrl && supabaseKey) {
     try {
       const client = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false } })
-      const { data: paintings, error } = await client.from('paintings').select('id, title').order('display_order', { ascending: true })
+      const { data: paintings, error } = await client.from('paintings')
+        .select('id, title, medium, size, status, price, description, image_url')
+        .order('display_order', { ascending: true })
 
       if (error) {
         throw error
@@ -62,7 +65,10 @@ async function main() {
 
       for (const painting of paintings || []) {
         const slug = slugify(painting.title)
-        if (slug) urls.push({ loc: `https://sugamartz.com/gallery/${slug}`, priority: '0.8', changefreq: 'monthly' })
+        if (slug) {
+          urls.push({ loc: `https://sugamartz.com/gallery/${slug}`, priority: '0.8', changefreq: 'monthly' })
+          artworkMetadata.push({ ...painting, slug })
+        }
       }
     } catch (error) {
       console.warn('Sitemap extension skipped because the Supabase table could not be queried:', error.message || error)
@@ -83,6 +89,8 @@ ${urls
 `
 
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), xml, 'utf8')
+  fs.writeFileSync(path.join(projectRoot, 'dist', 'sitemap.xml'), xml, 'utf8')
+  fs.writeFileSync(path.join(projectRoot, 'dist', '.sitemap-artworks.json'), JSON.stringify(artworkMetadata), 'utf8')
   console.log(`Wrote ${urls.length} sitemap entries to ${path.join(publicDir, 'sitemap.xml')}`)
 }
 

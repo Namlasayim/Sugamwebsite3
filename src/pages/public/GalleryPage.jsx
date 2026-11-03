@@ -146,7 +146,6 @@ export default function GalleryPage() {
       path={currentPath}
       image={selectedPainting ? paintingHero(selectedPainting.id, selectedPainting.image_url) || '/og-image.jpg' : '/og-image.jpg'}
       type={selectedPainting ? 'article' : 'website'}
-      ready={!loading}
       jsonLd={galleryJsonLd}
     />
     <section className="gallery-section reveal-on-scroll page-entrance"><div className="section-heading"><div><p className="eyebrow">02 / THE COLLECTION</p><h1>{selectedPainting ? selectedPainting.title : 'Original Paintings by Sugam Tamang'}</h1></div><a href={whatsappUrl} className="outline-link" target="_blank" rel="noreferrer">Enquire privately <Arrow /></a></div>

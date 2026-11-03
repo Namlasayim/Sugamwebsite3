@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 const SITE_ORIGIN = 'https://sugamartz.com'
@@ -18,19 +17,10 @@ export default function Seo({
   path = '/',
   image = DEFAULT_IMAGE,
   type = 'website',
-  ready = true,
   jsonLd,
 }) {
   const url = absoluteUrl(path)
   const imageUrl = absoluteUrl(image, DEFAULT_IMAGE)
-
-  useEffect(() => {
-    if (!ready || !window.__PRERENDER_INJECTED) return undefined
-    const frame = window.requestAnimationFrame(() => {
-      document.dispatchEvent(new Event('prerender-ready'))
-    })
-    return () => window.cancelAnimationFrame(frame)
-  }, [ready])
 
   return <Helmet>
     <title>{title}</title>

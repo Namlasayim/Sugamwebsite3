@@ -74,7 +74,6 @@ export default function Home() {
       description="Sugam Tamang creates contemporary paintings shaped by memory, landscape, and color. Discover original Nepali artwork in an intimate collection."
       path="/"
       image="/og-image.jpg"
-      ready={!loading}
       jsonLd={homeJsonLd}
     />
     <section className="video-hero page-entrance page-entrance--hero">

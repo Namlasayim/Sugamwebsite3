@@ -41,7 +41,6 @@ export default function AboutPage() {
       path="/about"
       image="/og-image.jpg"
       type="profile"
-      ready={!loading}
       jsonLd={jsonLd}
     />
     <section className="statement-section about-page reveal-on-scroll page-entrance page-entrance--content">

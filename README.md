@@ -17,6 +17,10 @@ npm run dev
 
 The public gallery is available at `/`. The content manager is at `/admin` and requires the Supabase Auth user created in step 4.
 
+## Cloudflare Pages
+
+Use `npm run build` as the build command and `dist` as the build output directory. The build writes static route-specific SEO metadata for public pages and sitemap artwork routes without launching a browser. React still renders page content client-side; these HTML files are not full server-rendered pages. Cloudflare's SPA fallback is in `public/_redirects`.
+
 ## Dynamic content
 
 `settings` stores the single artist profile row. `paintings` stores all artwork metadata and public ordering. Painting images are uploaded to the public `paintings` Storage bucket and their URLs are stored in `paintings.image_url`.

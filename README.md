@@ -21,7 +21,7 @@ The public gallery is available at `/`. The content manager is at `/admin` and r
 
 ## Cloudflare
 
-The build command is `npm run build` and the output directory is `dist`. The build writes static route-specific SEO metadata for public pages and sitemap artwork routes without launching a browser. React still renders page content client-side; these HTML files are not full server-rendered pages. The explicit `/admin` routes in `public/_redirects` preserve admin deep links without a catch-all rewrite loop. For Workers static assets, configure SPA not-found handling; for Pages, use `dist` as the output directory.
+The build command is `npm run build` and the output directory is `dist`. The build writes static route-specific SEO metadata for public pages and sitemap artwork routes without launching a browser. React still renders page content client-side; these HTML files are not full server-rendered pages. For Workers static assets, enable `single-page-application` not-found handling and do not publish a `_redirects` file; the asset fallback serves React Router paths such as `/admin` from `index.html`. For Cloudflare Pages, use `dist` as the output directory and configure its SPA fallback there.
 
 ## Dynamic content
 
